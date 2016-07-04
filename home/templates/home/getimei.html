@@ -1,0 +1,79 @@
+
+
+{% extends 'home/base.html' %}
+
+
+{% block body %}
+
+
+<div id="info" class="row">
+
+</div>
+
+
+<script type="text/javascript">
+  
+   var step=1
+   btn='<input  type="button" onclick="yes()" value="Verify" class="btn btn-danger btn-sm"> <input onclick="no()" type="button" id="n" value="Mismatch" class="btn btn-danger btn-sm">'
+
+   function showPart(step,btn){
+     html = ""
+     if (step == 1){
+              
+              html = "IMEI No./ S.No./ Model No. {{order.imei}}  "+btn;
+     }
+     else if(step == 2){
+
+     	      html = "Product Name : {{order.productName}}  "+btn;
+     }
+
+     else if(step ==  3){
+        
+        html +='<div class="col-sm-4">';
+        html = "<form action='.' method='post'>{% csrf_token %}<ul>";
+     	html += "{% for variable in order.lcat.variables.all %}<li>{{variable}} <input type='checkbox' name='{{variable}}' value='True'></li>{% endfor %}";
+     	html +='</ul>' 
+     	html += "<input type='submit' value='Submit' class='btn btn-danger btn-sm'></form>";
+        html +='</div><div class="col-sm-4"> Customer responses:<br>';
+     	html +="{% for var in complained.issue.all %}{{var}}{% endfor %}";  
+     	html +="</div>"            
+     }
+
+
+      $("#info").html(html)
+ 
+   }
+
+
+   if(step == 1){
+   	showPart(1,btn)
+   }  
+
+
+    function yes(){
+      step=step+1;
+      showPart(step,btn);
+
+   }
+
+
+   function no(){
+    
+      if(step == 1 ){
+         
+         $("#info").html("RMA has been rejected. Please enter another order id");
+       
+      }else {
+               
+               
+              window.location.href="/wrongproduct/";
+
+
+      }
+     
+   }
+
+</script>
+
+
+{% endblock %}

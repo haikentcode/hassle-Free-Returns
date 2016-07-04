@@ -1,0 +1,42 @@
+
+
+{% extends 'home/main.html' %}
+
+
+  {% block content %}
+
+<form action="/complained/" method="post" accept-charset="utf-8">
+   {% csrf_token %}
+  The complaint ID is: {{complainId}}
+  <br>
+  Product Name:{{order.productName}}
+  <br>
+
+  <input type="checkbox" name="wrongProduct" value="True">wrongProduct 
+  <br>
+
+<ul>
+ {% for variable in order.lcat.variables.all %}
+      <li><input type="checkbox" name="{{variable}}" value="True" >  
+            {{variable}} 
+      </li>
+ {% endfor %}
+</ul>
+<br>
+If any other issue : <input type="input" name="othertext" >
+<br>
+<br>
+<br>
+Customer Looking for :
+<select name="lookingFor" class="btn btn-danger btn-sm">
+	<option>Refund</option>
+	<option>Replacement</option>
+	<option>Repair</option>
+</select>
+
+<input type="submit" name="" class="btn btn-danger btn-sm">
+
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'home/main.html' %}
+
+
+  {% block content %}
+            
+   <div class="form-group">
+       <label for="usr">Order Id:</label>
+       <input type="" name="" id="orderid">
+   </div>
+
+   <div class="form-group">
+      
+       <input type="submit" name="Get Data"  id="getinfo" class="btn btn-danger btn-sm">
+   </div>
+
+
+
+   <div class="row">
+      <div class="form-group col-sm-8" id="information">
+      
+       </div>
+   </div>
+
+
+   <script type="text/javascript">
+
+         $("#getinfo").click(function()
+                {
+                        oid=$("#orderid").val();
+
+                         $.post("/getinfo/orderid/",{"oid":oid},function(data,status){
+
+                                $("#information").html(data);
+                         });
+                         
+                        
+                }
+                );
+
+   </script>
+
+  {% endblock %}
